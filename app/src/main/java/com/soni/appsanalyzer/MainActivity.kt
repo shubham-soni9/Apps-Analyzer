@@ -12,38 +12,27 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import com.soni.appsanalyzer.data.repository.AppRepositoryImpl
-import com.soni.appsanalyzer.domain.usecase.GetInstalledAppsUseCase
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.soni.appsanalyzer.presentation.AppsContract
 import com.soni.appsanalyzer.presentation.AppsScreen
 import com.soni.appsanalyzer.presentation.AppsViewModel
 import com.soni.appsanalyzer.ui.theme.AppsAnalyzerTheme
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         
-        val appRepository = AppRepositoryImpl(applicationContext)
-        val getInstalledAppsUseCase = GetInstalledAppsUseCase(appRepository)
-        
-        val factory = object : ViewModelProvider.Factory {
-            @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return AppsViewModel(getInstalledAppsUseCase) as T
-            }
-        }
-        val viewModel = ViewModelProvider(this, factory)[AppsViewModel::class.java]
-
         setContent {
             AppsAnalyzerTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+                    val viewModel: AppsViewModel = hiltViewModel()
                     val state by viewModel.state.collectAsState()
                     
                     LaunchedEffect(Unit) {

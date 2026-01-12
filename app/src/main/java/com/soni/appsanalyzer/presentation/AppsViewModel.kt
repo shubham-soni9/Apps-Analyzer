@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.soni.appsanalyzer.domain.model.AppInfo
 import com.soni.appsanalyzer.domain.model.AppType
 import com.soni.appsanalyzer.domain.usecase.GetInstalledAppsUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,7 +15,10 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class AppsViewModel(private val getInstalledAppsUseCase: GetInstalledAppsUseCase) : ViewModel() {
+@HiltViewModel
+class AppsViewModel
+@Inject
+constructor(private val getInstalledAppsUseCase: GetInstalledAppsUseCase) : ViewModel() {
 
     private val _state = MutableStateFlow(AppsContract.State())
     val state: StateFlow<AppsContract.State> = _state.asStateFlow()
