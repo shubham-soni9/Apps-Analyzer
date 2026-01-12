@@ -239,33 +239,33 @@ fun StatsCard(stats: AppsContract.AppStats) {
 
 @Composable
 private fun getAppTypeStyle(appType: AppType): Pair<Color, Color> {
-        return when (appType) {
-                AppType.FLUTTER ->
-                        Pair(
-                                Color(0xFFE3FFD), // Light Blue
-                                Color(0xFF1565C0) // Dark Blue
-                        )
-                AppType.REACT_NATIVE, AppType.REACT_NATIVE_EXPO ->
-                        Pair(
-                                Color(0xFFE0F7FA), // Light Cyan
-                                Color(0xFF006064) // Dark Cyan
-                        )
-                AppType.KMM ->
-                        Pair(
-                                Color(0xFFF3E5F5), // Light Purple
-                                Color(0xFF4A148C) // Dark Purple
-                        )
-                AppType.NATIVE ->
-                        Pair(
-                                Color(0xFFE8F5E9), // Light Green
-                                Color(0xFF1B5E20) // Dark Green
-                        )
-                AppType.UNKNOWN ->
-                        Pair(
-                                MaterialTheme.colorScheme.surfaceVariant,
-                                MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-        }
+    return when (appType) {
+        AppType.FLUTTER ->
+            Pair(
+                Color(0xFF81D4FA), // Vibrant Light Blue
+                Color(0xFF0D47A1)  // Vibrant Dark Blue
+            )
+        AppType.REACT_NATIVE, AppType.REACT_NATIVE_EXPO ->
+            Pair(
+                Color(0xFF4DD0E1), // Vibrant Cyan
+                Color(0xFF004D40)  // Vibrant Dark Cyan
+            )
+        AppType.KMM ->
+            Pair(
+                Color(0xFFCE93D8), // Vibrant Light Purple
+                Color(0xFF6A1B9A)  // Vibrant Dark Purple
+            )
+        AppType.NATIVE ->
+            Pair(
+                Color(0xFF81C784), // Vibrant Light Green
+                Color(0xFF2E7D32)  // Vibrant Dark Green
+            )
+        AppType.UNKNOWN ->
+            Pair(
+                MaterialTheme.colorScheme.surfaceVariant,
+                MaterialTheme.colorScheme.onSurfaceVariant
+            )
+    }
 }
 
 @Composable
