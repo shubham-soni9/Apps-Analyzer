@@ -322,6 +322,9 @@ fun ComponentSection(
 ) {
     var expanded by remember { mutableStateOf(false) }
 
+    Surface(
+        onClick = {expanded = !expanded}
+    ) {
     SectionCard(
             title = title,
             icon = icon,
@@ -353,6 +356,7 @@ fun ComponentSection(
                 }
             }
         }
+    }
     }
 }
 
