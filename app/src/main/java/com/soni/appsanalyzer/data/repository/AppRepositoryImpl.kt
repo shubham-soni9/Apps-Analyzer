@@ -52,8 +52,7 @@ constructor(@ApplicationContext private val context: Context, private val appDao
                             .awaitAll()
 
             val entities = appInfos.map { it.toAppEntity() }
-            appDao.clearApps()
-            appDao.insertApps(entities)
+            appDao.replaceApps(entities)
         }
     }
 }

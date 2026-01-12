@@ -74,7 +74,12 @@ fun AppsScreen(state: AppsContract.State, onIntent: (AppsContract.Intent) -> Uni
                             modifier = Modifier.fillMaxSize(),
                             contentPadding = PaddingValues(16.dp),
                             verticalArrangement = Arrangement.spacedBy(8.dp)
-                    ) { items(state.apps) { app -> AppItem(app) } }
+                    ) {
+                        items(
+                            items = state.apps,
+                            key = { it.packageName }
+                        ) { app -> AppItem(app) }
+                    }
                 }
             }
         }
