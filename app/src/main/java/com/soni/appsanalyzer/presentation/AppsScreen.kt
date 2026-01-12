@@ -1,9 +1,11 @@
 package com.soni.appsanalyzer.presentation
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -15,35 +17,43 @@ import com.soni.appsanalyzer.domain.model.AppInfo
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppsScreen(
-    state: AppsContract.State,
-    onIntent: (AppsContract.Intent) -> Unit
-) {
-    Scaffold(
-        topBar = {
-            CenterAlignedTopAppBar(
-                title = { Text("Installed Apps") }
-            )
-        }
-    ) { paddingValues ->
-        Box(modifier = Modifier.padding(paddingValues).fillMaxSize()) {
-            if (state.isLoading) {
-                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-            } else if (state.error != null) {
-                Text(
-                    text = state.error ?: "Unknown Error",
-                    color = MaterialTheme.colorScheme.error,
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            } else {
-                LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    items(state.apps) { app ->
-                        AppItem(app)
-                    }
+fun AppsScreen(state: AppsContract.State, onIntent: (AppsContract.Intent) -> Unit) {
+    Scaffold(topBar = { CenterAlignedTopAppBar(title = { Text("Installed Apps") }) }) {
+            paddingValues ->
+        Column(modifier = Modifier.padding(paddingValues).fillMaxSize()) {
+
+            // Filter Section
+            Row(
+                    modifier =
+                            Modifier.fillMaxWidth()
+                                    .horizontalScroll(rememberScrollState())
+                                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                AppsContract.AppFilter.values().forEach { filter ->
+                    FilterChip(
+                            selected = state.selectedFilter == filter,
+                            onClick = { onIntent(AppsContract.Intent.SelectFilter(filter)) },
+                            label = { Text(filter.displayName) }
+                    )
+                }
+            }
+
+            Box(modifier = Modifier.weight(1f).fillMaxWidth()) {
+                if (state.isLoading) {
+                    CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                } else if (state.error != null) {
+                    Text(
+                            text = state.error ?: "Unknown Error",
+                            color = MaterialTheme.colorScheme.error,
+                            modifier = Modifier.align(Alignment.Center)
+                    )
+                } else {
+                    LazyColumn(
+                            modifier = Modifier.fillMaxSize(),
+                            contentPadding = PaddingValues(16.dp),
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) { items(state.apps) { app -> AppItem(app) } }
                 }
             }
         }
@@ -53,20 +63,18 @@ fun AppsScreen(
 @Composable
 fun AppItem(app: AppInfo) {
     Card(
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        modifier = Modifier.fillMaxWidth()
+            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+            modifier = Modifier.fillMaxWidth()
     ) {
         Row(
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+                modifier = Modifier.padding(16.dp).fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
         ) {
             app.icon?.let { icon ->
                 Image(
-                    bitmap = icon.toBitmap().asImageBitmap(),
-                    contentDescription = null,
-                    modifier = Modifier.size(48.dp)
+                        bitmap = icon.toBitmap().asImageBitmap(),
+                        contentDescription = null,
+                        modifier = Modifier.size(48.dp)
                 )
             }
             Spacer(modifier = Modifier.width(16.dp))
@@ -76,9 +84,9 @@ fun AppItem(app: AppInfo) {
                 Text(text = "v${app.versionName}", style = MaterialTheme.typography.labelSmall)
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = app.appType.displayName,
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.primary
+                        text = app.appType.displayName,
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.primary
                 )
             }
         }
