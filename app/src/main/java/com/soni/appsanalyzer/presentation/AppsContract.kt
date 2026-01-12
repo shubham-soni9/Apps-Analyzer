@@ -11,11 +11,19 @@ class AppsContract {
         FLUTTER("Flutter")
     }
 
+    data class AppStats(
+            val totalCount: Int = 0,
+            val nativeCount: Int = 0,
+            val flutterCount: Int = 0,
+            val reactNativeCount: Int = 0
+    )
+
     data class State(
             val apps: List<AppInfo> = emptyList(),
             val isLoading: Boolean = false,
             val error: String? = null,
-            val selectedFilter: AppFilter = AppFilter.ALL
+            val selectedFilter: AppFilter = AppFilter.ALL,
+            val appStats: AppStats = AppStats()
     )
 
     sealed class Intent {

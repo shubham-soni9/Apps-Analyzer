@@ -37,6 +37,7 @@ constructor(
         viewModelScope.launch {
             getInstalledAppsUseCase().collect { apps ->
                 allApps = apps
+                _state.update { it.copy(appStats = calculateStats(apps)) }
                 applyFilter(_state.value.selectedFilter)
 
                 // Initial sync if database is empty
@@ -45,6 +46,23 @@ constructor(
                 }
             }
         }
+    }
+
+    private fun calculateStats(apps: List<AppInfo>): AppsContract.AppStats {
+        val total = apps.size
+        val native = apps.count { it.appType == AppType.NATIVE }
+        val flutter = apps.count { it.appType == AppType.FLUTTER }
+        val reactNative =
+                apps.count {
+                    it.appType == AppType.REACT_NATIVE || it.appType == AppType.REACT_NATIVE_EXPO
+                }
+
+        return AppsContract.AppStats(
+                totalCount = total,
+                nativeCount = native,
+                flutterCount = flutter,
+                reactNativeCount = reactNative
+        )
     }
 
     fun handleIntent(intent: AppsContract.Intent) {
