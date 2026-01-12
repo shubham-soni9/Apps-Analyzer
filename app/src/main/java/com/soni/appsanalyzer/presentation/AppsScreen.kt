@@ -63,53 +63,6 @@ fun AppsScreen(
                             fontSize = 22.sp
                         )
                     },
-                    actions = {
-                        IconButton(
-                            onClick = { sortAscending = !sortAscending }
-                        ) {
-                            Icon(
-                                imageVector =
-                                    if (sortAscending)
-                                        Icons.Default
-                                            .KeyboardArrowUp
-                                    else
-                                        Icons.Default
-                                            .KeyboardArrowDown,
-                                contentDescription = "Sort",
-                                tint =
-                                    MaterialTheme.colorScheme
-                                        .primary
-                            )
-                        }
-                        IconButton(
-                            onClick = {
-                                isSearchActive = !isSearchActive
-                            }
-                        ) {
-                            Icon(
-                                imageVector =
-                                    if (isSearchActive)
-                                        Icons.Default.Close
-                                    else Icons.Default.Search,
-                                contentDescription = "Search"
-                            )
-                        }
-                        IconButton(
-                            onClick = {
-                                onIntent(
-                                    AppsContract.Intent.SyncApps
-                                )
-                            }
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Refresh,
-                                contentDescription = "Sync",
-                                tint =
-                                    MaterialTheme.colorScheme
-                                        .secondary
-                            )
-                        }
-                    },
                     colors =
                         TopAppBarDefaults.centerAlignedTopAppBarColors(
                             containerColor =
@@ -591,20 +544,6 @@ fun EnhancedAppItem(app: AppInfo, onNavigateToDetails: (String) -> Unit) {
                                     .onSurfaceVariant
                         )
                     }
-                }
-
-                IconButton(
-                    onClick = { expanded = !expanded },
-                    modifier = Modifier.size(24.dp)
-                ) {
-                    Icon(
-                        imageVector =
-                            if (expanded) Icons.Default.ExpandLess
-                            else Icons.Default.ExpandMore,
-                        contentDescription =
-                            if (expanded) "Collapse" else "Expand",
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
                 }
             }
 
