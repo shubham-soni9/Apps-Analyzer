@@ -9,7 +9,6 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -37,9 +36,9 @@ import java.util.*
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppDetailsScreen(
-    packageName: String,
-    onBackClick: () -> Unit,
-    viewModel: AppDetailsViewModel = hiltViewModel()
+        packageName: String,
+        onBackClick: () -> Unit,
+        viewModel: AppDetailsViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
 
@@ -49,10 +48,7 @@ fun AppDetailsScreen(
 
     when (val s = state) {
         is AppDetailsState.Loading -> {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     CircularProgressIndicator()
                     Spacer(modifier = Modifier.height(16.dp))
@@ -61,31 +57,28 @@ fun AppDetailsScreen(
             }
         }
         is AppDetailsState.Error -> {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.padding(32.dp)
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.padding(32.dp)
                 ) {
                     Icon(
-                        Icons.Outlined.ErrorOutline,
-                        contentDescription = null,
-                        modifier = Modifier.size(64.dp),
-                        tint = MaterialTheme.colorScheme.error
+                            Icons.Outlined.ErrorOutline,
+                            contentDescription = null,
+                            modifier = Modifier.size(64.dp),
+                            tint = MaterialTheme.colorScheme.error
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
-                        "Error Loading Details",
-                        style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.error
+                            "Error Loading Details",
+                            style = MaterialTheme.typography.titleLarge,
+                            color = MaterialTheme.colorScheme.error
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        s.message,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                            s.message,
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
             }
@@ -103,63 +96,88 @@ fun AppDetailsContent(info: AppDetailInfo, onBackClick: () -> Unit) {
     var selectedTab by remember { mutableIntStateOf(0) }
 
     Scaffold(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            TopAppBar(
-                title = {
-                    Column {
-                        Text(
-                            text = info.name,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                            style = MaterialTheme.typography.titleLarge
-                        )
-                        Text(
-                            text = info.packageName,
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                    }
-                },
-                navigationIcon = {
-                    IconButton(onClick = onBackClick) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
-                    }
-                },
-                scrollBehavior = scrollBehavior,
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surface
+            modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+            topBar = {
+                TopAppBar(
+                        title = {
+                            Column {
+                                Text(
+                                        text = info.name,
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis,
+                                        style = MaterialTheme.typography.titleLarge
+                                )
+                                Text(
+                                        text = info.packageName,
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis
+                                )
+                            }
+                        },
+                        navigationIcon = {
+                            IconButton(onClick = onBackClick) {
+                                Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                            }
+                        },
+                        scrollBehavior = scrollBehavior,
+                        colors =
+                                TopAppBarDefaults.topAppBarColors(
+                                        containerColor = MaterialTheme.colorScheme.surface
+                                )
                 )
-            )
-        }
+            }
     ) { padding ->
         Column(modifier = Modifier.padding(padding)) {
-            PrimaryTabRow(selectedTabIndex = selectedTab) {
+            PrimaryScrollableTabRow(selectedTabIndex = selectedTab, edgePadding = 0.dp) {
                 Tab(
-                    selected = selectedTab == 0,
-                    onClick = { selectedTab = 0 },
-                    text = { Text("Overview") },
-                    icon = { Icon(Icons.Outlined.Info, contentDescription = null, modifier = Modifier.size(20.dp)) }
+                        selected = selectedTab == 0,
+                        onClick = { selectedTab = 0 },
+                        text = { Text("Overview") },
+                        icon = {
+                            Icon(
+                                    Icons.Outlined.Info,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(20.dp)
+                            )
+                        }
                 )
                 Tab(
-                    selected = selectedTab == 1,
-                    onClick = { selectedTab = 1 },
-                    text = { Text("Analysis") },
-                    icon = { Icon(Icons.Outlined.Analytics, contentDescription = null, modifier = Modifier.size(20.dp)) }
+                        selected = selectedTab == 1,
+                        onClick = { selectedTab = 1 },
+                        text = { Text("Analysis") },
+                        icon = {
+                            Icon(
+                                    Icons.Outlined.Analytics,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(20.dp)
+                            )
+                        }
                 )
                 Tab(
-                    selected = selectedTab == 2,
-                    onClick = { selectedTab = 2 },
-                    text = { Text("Components") },
-                    icon = { Icon(Icons.Outlined.ViewModule, contentDescription = null, modifier = Modifier.size(20.dp)) }
+                        selected = selectedTab == 2,
+                        onClick = { selectedTab = 2 },
+                        text = { Text("Components") },
+                        icon = {
+                            Icon(
+                                    Icons.Outlined.ViewModule,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(20.dp)
+                            )
+                        }
                 )
                 Tab(
-                    selected = selectedTab == 3,
-                    onClick = { selectedTab = 3 },
-                    text = { Text("Permissions") },
-                    icon = { Icon(Icons.Outlined.Security, contentDescription = null, modifier = Modifier.size(20.dp)) }
+                        selected = selectedTab == 3,
+                        onClick = { selectedTab = 3 },
+                        text = { Text("Permissions") },
+                        icon = {
+                            Icon(
+                                    Icons.Outlined.Security,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(20.dp)
+                            )
+                        }
                 )
             }
 
@@ -176,15 +194,12 @@ fun AppDetailsContent(info: AppDetailInfo, onBackClick: () -> Unit) {
 @Composable
 fun OverviewTab(info: AppDetailInfo) {
     LazyColumn(
-        modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         item {
-            SectionCard(
-                title = "Version Information",
-                icon = Icons.Outlined.Update
-            ) {
+            SectionCard(title = "Version Information", icon = Icons.Outlined.Update) {
                 DetailItem("Version", info.versionName, Icons.Outlined.Tag)
                 DetailItem("Version Code", info.versionCode.toString(), Icons.Outlined.Numbers)
                 DetailItem("Target SDK", "API ${info.targetSdk}", Icons.Outlined.Android)
@@ -193,10 +208,7 @@ fun OverviewTab(info: AppDetailInfo) {
         }
 
         item {
-            SectionCard(
-                title = "Installation Details",
-                icon = Icons.Outlined.Schedule
-            ) {
+            SectionCard(title = "Installation Details", icon = Icons.Outlined.Schedule) {
                 DetailItem("Installed", formatDate(info.installTime), Icons.Outlined.InstallMobile)
                 DetailItem("Last Updated", formatDate(info.updateTime), Icons.Outlined.Update)
                 DetailItem("User ID", info.uid.toString(), Icons.Outlined.Person)
@@ -204,27 +216,21 @@ fun OverviewTab(info: AppDetailInfo) {
         }
 
         item {
-            SectionCard(
-                title = "File Locations",
-                icon = Icons.Outlined.Folder
-            ) {
+            SectionCard(title = "File Locations", icon = Icons.Outlined.Folder) {
                 CopyableDetailItem("APK Source", info.sourceDir)
                 CopyableDetailItem("Data Directory", info.dataDir)
                 if (info.splitNames.isNotEmpty()) {
                     DetailItem(
-                        "Split APKs",
-                        info.splitNames.joinToString(", "),
-                        Icons.Outlined.Splitscreen
+                            "Split APKs",
+                            info.splitNames.joinToString(", "),
+                            Icons.Outlined.Splitscreen
                     )
                 }
             }
         }
 
         item {
-            SectionCard(
-                title = "Signing Certificates",
-                icon = Icons.Outlined.Verified
-            ) {
+            SectionCard(title = "Signing Certificates", icon = Icons.Outlined.Verified) {
                 info.signatures.forEachIndexed { index, sig ->
                     CertificateItem(index + 1, sig)
                     if (index < info.signatures.lastIndex) {
@@ -239,27 +245,30 @@ fun OverviewTab(info: AppDetailInfo) {
 @Composable
 fun AnalysisTab(info: AppDetailInfo) {
     LazyColumn(
-        modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         item {
-            SectionCard(
-                title = "Technology Stack",
-                icon = Icons.Outlined.Code
-            ) {
+            SectionCard(title = "Technology Stack", icon = Icons.Outlined.Code) {
                 if (info.techStack.isEmpty()) {
                     EmptyState("No specific framework detected")
                 } else {
                     Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         info.techStack.forEach { tech ->
                             AssistChip(
-                                onClick = {},
-                                label = { Text(tech) },
-                                leadingIcon = { Icon(Icons.Outlined.Code, contentDescription = null, modifier = Modifier.size(18.dp)) }
+                                    onClick = {},
+                                    label = { Text(tech) },
+                                    leadingIcon = {
+                                        Icon(
+                                                Icons.Outlined.Code,
+                                                contentDescription = null,
+                                                modifier = Modifier.size(18.dp)
+                                        )
+                                    }
                             )
                         }
                     }
@@ -269,9 +278,12 @@ fun AnalysisTab(info: AppDetailInfo) {
 
         item {
             SectionCard(
-                title = "Native Libraries",
-                icon = Icons.Outlined.DataObject,
-                subtitle = if (info.nativeLibraries.isNotEmpty()) "${info.nativeLibraries.size} libraries found" else null
+                    title = "Native Libraries",
+                    icon = Icons.Outlined.DataObject,
+                    subtitle =
+                            if (info.nativeLibraries.isNotEmpty())
+                                    "${info.nativeLibraries.size} libraries found"
+                            else null
             ) {
                 if (info.nativeLibraries.isEmpty()) {
                     EmptyState("No native libraries found")
@@ -291,46 +303,42 @@ fun AnalysisTab(info: AppDetailInfo) {
 @Composable
 fun ComponentsTab(info: AppDetailInfo) {
     LazyColumn(
-        modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        item {
-            ComponentSection("Activities", info.activities, Icons.Outlined.Window)
-        }
-        item {
-            ComponentSection("Services", info.services, Icons.Outlined.CloudQueue)
-        }
-        item {
-            ComponentSection("Receivers", info.receivers, Icons.Outlined.Sensors)
-        }
-        item {
-            ComponentSection("Providers", info.providers, Icons.Outlined.Storage)
-        }
+        item { ComponentSection("Activities", info.activities, Icons.Outlined.Window) }
+        item { ComponentSection("Services", info.services, Icons.Outlined.CloudQueue) }
+        item { ComponentSection("Receivers", info.receivers, Icons.Outlined.Sensors) }
+        item { ComponentSection("Providers", info.providers, Icons.Outlined.Storage) }
     }
 }
 
 @Composable
-fun ComponentSection(title: String, components: List<ComponentInfo>, icon: androidx.compose.ui.graphics.vector.ImageVector) {
+fun ComponentSection(
+        title: String,
+        components: List<ComponentInfo>,
+        icon: androidx.compose.ui.graphics.vector.ImageVector
+) {
     var expanded by remember { mutableStateOf(false) }
 
     SectionCard(
-        title = title,
-        icon = icon,
-        subtitle = "${components.size} components",
-        trailing = {
-            IconButton(onClick = { expanded = !expanded }) {
-                Icon(
-                    if (expanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
-                    contentDescription = if (expanded) "Collapse" else "Expand"
-                )
+            title = title,
+            icon = icon,
+            subtitle = "${components.size} components",
+            trailing = {
+                IconButton(onClick = { expanded = !expanded }) {
+                    Icon(
+                            if (expanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
+                            contentDescription = if (expanded) "Collapse" else "Expand"
+                    )
+                }
             }
-        }
     ) {
         AnimatedVisibility(
-            visible = expanded,
-            enter = expandVertically() + fadeIn(),
-            exit = shrinkVertically() + fadeOut()
+                visible = expanded,
+                enter = expandVertically() + fadeIn(),
+                exit = shrinkVertically() + fadeOut()
         ) {
             Column {
                 if (components.isEmpty()) {
@@ -351,20 +359,18 @@ fun ComponentSection(title: String, components: List<ComponentInfo>, icon: andro
 @Composable
 fun PermissionsTab(info: AppDetailInfo) {
     LazyColumn(
-        modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(16.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         item {
             SummaryCard(
-                granted = info.permissions.count { it.isGranted },
-                total = info.permissions.size
+                    granted = info.permissions.count { it.isGranted },
+                    total = info.permissions.size
             )
         }
 
-        items(info.permissions) { perm ->
-            PermissionCard(perm)
-        }
+        items(info.permissions) { perm -> PermissionCard(perm) }
     }
 }
 
@@ -372,39 +378,39 @@ fun PermissionsTab(info: AppDetailInfo) {
 
 @Composable
 fun SectionCard(
-    title: String,
-    icon: androidx.compose.ui.graphics.vector.ImageVector,
-    subtitle: String? = null,
-    trailing: @Composable (() -> Unit)? = null,
-    content: @Composable ColumnScope.() -> Unit
+        title: String,
+        icon: androidx.compose.ui.graphics.vector.ImageVector,
+        subtitle: String? = null,
+        trailing: @Composable (() -> Unit)? = null,
+        content: @Composable ColumnScope.() -> Unit
 ) {
     ElevatedCard(
-        modifier = Modifier.fillMaxWidth(),
-        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 2.dp)
+            modifier = Modifier.fillMaxWidth(),
+            elevation = CardDefaults.elevatedCardElevation(defaultElevation = 2.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(
-                    icon,
-                    contentDescription = null,
-                    modifier = Modifier.size(24.dp),
-                    tint = MaterialTheme.colorScheme.primary
+                        icon,
+                        contentDescription = null,
+                        modifier = Modifier.size(24.dp),
+                        tint = MaterialTheme.colorScheme.primary
                 )
                 Spacer(modifier = Modifier.width(12.dp))
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        title,
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.SemiBold
+                            title,
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.SemiBold
                     )
                     if (subtitle != null) {
                         Text(
-                            subtitle,
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                                subtitle,
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
                 }
@@ -418,34 +424,28 @@ fun SectionCard(
 
 @Composable
 fun DetailItem(
-    label: String,
-    value: String,
-    icon: androidx.compose.ui.graphics.vector.ImageVector
+        label: String,
+        value: String,
+        icon: androidx.compose.ui.graphics.vector.ImageVector
 ) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 6.dp),
-        verticalAlignment = Alignment.CenterVertically
+            modifier = Modifier.fillMaxWidth().padding(vertical = 6.dp),
+            verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
-            icon,
-            contentDescription = null,
-            modifier = Modifier.size(20.dp),
-            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                icon,
+                contentDescription = null,
+                modifier = Modifier.size(20.dp),
+                tint = MaterialTheme.colorScheme.onSurfaceVariant
         )
         Spacer(modifier = Modifier.width(12.dp))
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                label,
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                    label,
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
             )
-            Text(
-                value,
-                style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight.Medium
-            )
+            Text(value, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium)
         }
     }
 }
@@ -455,40 +455,37 @@ fun CopyableDetailItem(label: String, value: String) {
     val context = LocalContext.current
 
     Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(8.dp))
-            .clickable {
-                val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                val clip = ClipData.newPlainText("Copied Text", value)
-                clipboard.setPrimaryClip(clip)
-                Toast.makeText(context, "Copied to clipboard", Toast.LENGTH_SHORT).show()
-            },
-        color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+            modifier =
+                    Modifier.fillMaxWidth().clip(RoundedCornerShape(8.dp)).clickable {
+                        val clipboard =
+                                context.getSystemService(Context.CLIPBOARD_SERVICE) as
+                                        ClipboardManager
+                        val clip = ClipData.newPlainText("Copied Text", value)
+                        clipboard.setPrimaryClip(clip)
+                        Toast.makeText(context, "Copied to clipboard", Toast.LENGTH_SHORT).show()
+                    },
+            color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
     ) {
-        Row(
-            modifier = Modifier.padding(12.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
+        Row(modifier = Modifier.padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    label,
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                        label,
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    value,
-                    style = MaterialTheme.typography.bodySmall,
-                    fontFamily = FontFamily.Monospace,
-                    color = MaterialTheme.colorScheme.onSurface
+                        value,
+                        style = MaterialTheme.typography.bodySmall,
+                        fontFamily = FontFamily.Monospace,
+                        color = MaterialTheme.colorScheme.onSurface
                 )
             }
             Icon(
-                Icons.Outlined.ContentCopy,
-                contentDescription = "Copy",
-                modifier = Modifier.size(18.dp),
-                tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    Icons.Outlined.ContentCopy,
+                    contentDescription = "Copy",
+                    modifier = Modifier.size(18.dp),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
     }
@@ -499,41 +496,38 @@ fun CertificateItem(index: Int, signature: String) {
     val context = LocalContext.current
 
     Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(8.dp))
-            .clickable {
-                val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                val clip = ClipData.newPlainText("Certificate SHA-256", signature)
-                clipboard.setPrimaryClip(clip)
-                Toast.makeText(context, "Certificate copied", Toast.LENGTH_SHORT).show()
-            },
-        color = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.3f)
+            modifier =
+                    Modifier.fillMaxWidth().clip(RoundedCornerShape(8.dp)).clickable {
+                        val clipboard =
+                                context.getSystemService(Context.CLIPBOARD_SERVICE) as
+                                        ClipboardManager
+                        val clip = ClipData.newPlainText("Certificate SHA-256", signature)
+                        clipboard.setPrimaryClip(clip)
+                        Toast.makeText(context, "Certificate copied", Toast.LENGTH_SHORT).show()
+                    },
+            color = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.3f)
     ) {
-        Row(
-            modifier = Modifier.padding(12.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
+        Row(modifier = Modifier.padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
             Icon(
-                Icons.Outlined.Fingerprint,
-                contentDescription = null,
-                modifier = Modifier.size(24.dp),
-                tint = MaterialTheme.colorScheme.secondary
+                    Icons.Outlined.Fingerprint,
+                    contentDescription = null,
+                    modifier = Modifier.size(24.dp),
+                    tint = MaterialTheme.colorScheme.secondary
             )
             Spacer(modifier = Modifier.width(12.dp))
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    "Certificate #$index",
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                        "Certificate #$index",
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    signature,
-                    style = MaterialTheme.typography.bodySmall,
-                    fontFamily = FontFamily.Monospace,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    lineHeight = MaterialTheme.typography.bodySmall.lineHeight
+                        signature,
+                        style = MaterialTheme.typography.bodySmall,
+                        fontFamily = FontFamily.Monospace,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        lineHeight = MaterialTheme.typography.bodySmall.lineHeight
                 )
             }
         }
@@ -542,23 +536,20 @@ fun CertificateItem(index: Int, signature: String) {
 
 @Composable
 fun LibraryItem(lib: NativeLibInfo) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
+    Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
         Icon(
-            Icons.Outlined.Memory,
-            contentDescription = null,
-            modifier = Modifier.size(20.dp),
-            tint = MaterialTheme.colorScheme.tertiary
+                Icons.Outlined.Memory,
+                contentDescription = null,
+                modifier = Modifier.size(20.dp),
+                tint = MaterialTheme.colorScheme.tertiary
         )
         Spacer(modifier = Modifier.width(12.dp))
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                lib.name,
-                style = MaterialTheme.typography.bodyMedium,
-                fontFamily = FontFamily.Monospace,
-                fontWeight = FontWeight.Medium
+                    lib.name,
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontFamily = FontFamily.Monospace,
+                    fontWeight = FontWeight.Medium
             )
             Spacer(modifier = Modifier.height(2.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -566,9 +557,9 @@ fun LibraryItem(lib: NativeLibInfo) {
                     Text(lib.arch, style = MaterialTheme.typography.labelSmall)
                 }
                 Text(
-                    formatSize(lib.size),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                        formatSize(lib.size),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
         }
@@ -580,46 +571,43 @@ fun ComponentItem(comp: ComponentInfo) {
     val context = LocalContext.current
 
     Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(8.dp))
-            .clickable {
-                val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                val clip = ClipData.newPlainText("Component Name", comp.name)
-                clipboard.setPrimaryClip(clip)
-                Toast.makeText(context, "Component name copied", Toast.LENGTH_SHORT).show()
-            },
-        color = if (comp.isExported)
-            MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.2f)
-        else
-            MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f)
+            modifier =
+                    Modifier.fillMaxWidth().clip(RoundedCornerShape(8.dp)).clickable {
+                        val clipboard =
+                                context.getSystemService(Context.CLIPBOARD_SERVICE) as
+                                        ClipboardManager
+                        val clip = ClipData.newPlainText("Component Name", comp.name)
+                        clipboard.setPrimaryClip(clip)
+                        Toast.makeText(context, "Component name copied", Toast.LENGTH_SHORT).show()
+                    },
+            color =
+                    if (comp.isExported) MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.2f)
+                    else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f)
     ) {
-        Row(
-            modifier = Modifier.padding(12.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
+        Row(modifier = Modifier.padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    comp.name,
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontFamily = FontFamily.Monospace
+                        comp.name,
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontFamily = FontFamily.Monospace
                 )
             }
             if (comp.isExported) {
                 AssistChip(
-                    onClick = {},
-                    label = { Text("Exported", style = MaterialTheme.typography.labelSmall) },
-                    leadingIcon = {
-                        Icon(
-                            Icons.Outlined.WarningAmber,
-                            contentDescription = null,
-                            modifier = Modifier.size(16.dp)
-                        )
-                    },
-                    colors = AssistChipDefaults.assistChipColors(
-                        containerColor = MaterialTheme.colorScheme.errorContainer,
-                        labelColor = MaterialTheme.colorScheme.onErrorContainer
-                    )
+                        onClick = {},
+                        label = { Text("Exported", style = MaterialTheme.typography.labelSmall) },
+                        leadingIcon = {
+                            Icon(
+                                    Icons.Outlined.WarningAmber,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(16.dp)
+                            )
+                        },
+                        colors =
+                                AssistChipDefaults.assistChipColors(
+                                        containerColor = MaterialTheme.colorScheme.errorContainer,
+                                        labelColor = MaterialTheme.colorScheme.onErrorContainer
+                                )
                 )
             }
         }
@@ -629,42 +617,39 @@ fun ComponentItem(comp: ComponentInfo) {
 @Composable
 fun PermissionCard(perm: PermissionInfo) {
     ElevatedCard(
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.elevatedCardColors(
-            containerColor = if (perm.isGranted)
-                MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f)
-            else
-                MaterialTheme.colorScheme.surfaceVariant
-        )
+            modifier = Modifier.fillMaxWidth(),
+            colors =
+                    CardDefaults.elevatedCardColors(
+                            containerColor =
+                                    if (perm.isGranted)
+                                            MaterialTheme.colorScheme.primaryContainer.copy(
+                                                    alpha = 0.3f
+                                            )
+                                    else MaterialTheme.colorScheme.surfaceVariant
+                    )
     ) {
-        Row(
-            modifier = Modifier.padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
+        Row(modifier = Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
             Icon(
-                if (perm.isGranted) Icons.Outlined.CheckCircle else Icons.Outlined.Cancel,
-                contentDescription = null,
-                modifier = Modifier.size(24.dp),
-                tint = if (perm.isGranted)
-                    MaterialTheme.colorScheme.primary
-                else
-                    MaterialTheme.colorScheme.error
+                    if (perm.isGranted) Icons.Outlined.CheckCircle else Icons.Outlined.Cancel,
+                    contentDescription = null,
+                    modifier = Modifier.size(24.dp),
+                    tint =
+                            if (perm.isGranted) MaterialTheme.colorScheme.primary
+                            else MaterialTheme.colorScheme.error
             )
             Spacer(modifier = Modifier.width(12.dp))
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    perm.name,
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontFamily = FontFamily.Monospace,
-                    fontWeight = FontWeight.Medium
+                        perm.name,
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontFamily = FontFamily.Monospace,
+                        fontWeight = FontWeight.Medium
                 )
                 Spacer(modifier = Modifier.height(4.dp))
-                Badge(
-                    containerColor = MaterialTheme.colorScheme.secondaryContainer
-                ) {
+                Badge(containerColor = MaterialTheme.colorScheme.secondaryContainer) {
                     Text(
-                        text = perm.protectionLevel.toString(),
-                        style = MaterialTheme.typography.labelSmall
+                            text = perm.protectionLevel.toString(),
+                            style = MaterialTheme.typography.labelSmall
                     )
                 }
             }
@@ -675,32 +660,31 @@ fun PermissionCard(perm: PermissionInfo) {
 @Composable
 fun SummaryCard(granted: Int, total: Int) {
     ElevatedCard(
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.elevatedCardColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f)
-        )
+            modifier = Modifier.fillMaxWidth(),
+            colors =
+                    CardDefaults.elevatedCardColors(
+                            containerColor =
+                                    MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f)
+                    )
     ) {
-        Row(
-            modifier = Modifier.padding(20.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
+        Row(modifier = Modifier.padding(20.dp), verticalAlignment = Alignment.CenterVertically) {
             Icon(
-                Icons.Outlined.Shield,
-                contentDescription = null,
-                modifier = Modifier.size(32.dp),
-                tint = MaterialTheme.colorScheme.primary
+                    Icons.Outlined.Shield,
+                    contentDescription = null,
+                    modifier = Modifier.size(32.dp),
+                    tint = MaterialTheme.colorScheme.primary
             )
             Spacer(modifier = Modifier.width(16.dp))
             Column {
                 Text(
-                    "$granted of $total Granted",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold
+                        "$granted of $total Granted",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold
                 )
                 Text(
-                    "Permission Status",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                        "Permission Status",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
         }
@@ -709,16 +693,11 @@ fun SummaryCard(granted: Int, total: Int) {
 
 @Composable
 fun EmptyState(message: String) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(24.dp),
-        contentAlignment = Alignment.Center
-    ) {
+    Box(modifier = Modifier.fillMaxWidth().padding(24.dp), contentAlignment = Alignment.Center) {
         Text(
-            message,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+                message,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
 }
