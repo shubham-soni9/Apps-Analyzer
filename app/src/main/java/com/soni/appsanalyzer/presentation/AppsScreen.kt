@@ -74,6 +74,12 @@ fun AppItem(app: AppInfo) {
                 Text(text = app.name, style = MaterialTheme.typography.titleMedium)
                 Text(text = app.packageName, style = MaterialTheme.typography.bodySmall)
                 Text(text = "v${app.versionName}", style = MaterialTheme.typography.labelSmall)
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = app.appType.displayName,
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.primary
+                )
             }
         }
     }

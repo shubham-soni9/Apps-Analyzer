@@ -4,7 +4,9 @@ import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import com.soni.appsanalyzer.domain.model.AppInfo
+import com.soni.appsanalyzer.domain.model.AppType
 import com.soni.appsanalyzer.domain.repository.AppRepository
+import com.soni.appsanalyzer.data.util.AppAnalyzer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -24,7 +26,8 @@ class AppRepositoryImpl(private val context: Context) : AppRepository {
                         name = appInfo.loadLabel(packageManager).toString(),
                         packageName = packageInfo.packageName,
                         icon = appInfo.loadIcon(packageManager),
-                        versionName = packageInfo.versionName ?: "Unknown"
+                        versionName = packageInfo.versionName ?: "Unknown",
+                        appType = AppAnalyzer.analyzeApp(appInfo.sourceDir)
                     )
                 } else {
                     null
