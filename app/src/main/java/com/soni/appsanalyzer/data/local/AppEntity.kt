@@ -8,6 +8,5 @@ data class AppEntity(
         @PrimaryKey val packageName: String,
         val name: String,
         val versionName: String,
-        val appType: String,
-        val icon: ByteArray?
+        val appType: String
 )

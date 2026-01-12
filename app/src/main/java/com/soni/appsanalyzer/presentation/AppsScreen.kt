@@ -1,37 +1,45 @@
 package com.soni.appsanalyzer.presentation
 
+import android.graphics.drawable.Drawable
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Face
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.drawable.toBitmap
 import com.soni.appsanalyzer.domain.model.AppInfo
-
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Refresh
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppsScreen(state: AppsContract.State, onIntent: (AppsContract.Intent) -> Unit) {
     Scaffold(
-        topBar = {
-            CenterAlignedTopAppBar(
-                title = { Text("Installed Apps") },
-                actions = {
-                    IconButton(onClick = { onIntent(AppsContract.Intent.SyncApps) }) {
-                        Icon(imageVector = Icons.Default.Refresh, contentDescription = "Sync")
-                    }
-                }
-            )
-        }
+            topBar = {
+                CenterAlignedTopAppBar(
+                        title = { Text("Installed Apps") },
+                        actions = {
+                            IconButton(onClick = { onIntent(AppsContract.Intent.SyncApps) }) {
+                                Icon(
+                                        imageVector = Icons.Default.Refresh,
+                                        contentDescription = "Sync"
+                                )
+                            }
+                        }
+                )
+            }
     ) { paddingValues ->
         Column(modifier = Modifier.padding(paddingValues).fillMaxSize()) {
 
@@ -74,6 +82,39 @@ fun AppsScreen(state: AppsContract.State, onIntent: (AppsContract.Intent) -> Uni
 }
 
 @Composable
+fun AppIcon(packageName: String, modifier: Modifier = Modifier) {
+    val context = LocalContext.current
+    val icon by
+            produceState<Drawable?>(initialValue = null, key1 = packageName) {
+                value =
+                        withContext(Dispatchers.IO) {
+                            try {
+                                context.packageManager.getApplicationIcon(packageName)
+                            } catch (e: Exception) {
+                                null
+                            }
+                        }
+            }
+
+    if (icon != null) {
+        Image(
+                bitmap = icon!!.toBitmap().asImageBitmap(),
+                contentDescription = null,
+                modifier = modifier
+        )
+    } else {
+        Box(modifier = modifier.background(MaterialTheme.colorScheme.surfaceVariant)) {
+            Icon(
+                    imageVector = Icons.Default.Face,
+                    contentDescription = null,
+                    modifier = Modifier.align(Alignment.Center),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+    }
+}
+
+@Composable
 fun AppItem(app: AppInfo) {
     Card(
             elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
@@ -83,13 +124,7 @@ fun AppItem(app: AppInfo) {
                 modifier = Modifier.padding(16.dp).fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
         ) {
-            app.icon?.let { icon ->
-                Image(
-                        bitmap = icon.toBitmap().asImageBitmap(),
-                        contentDescription = null,
-                        modifier = Modifier.size(48.dp)
-                )
-            }
+            AppIcon(packageName = app.packageName, modifier = Modifier.size(48.dp))
             Spacer(modifier = Modifier.width(16.dp))
             Column {
                 Text(text = app.name, style = MaterialTheme.typography.titleMedium)
