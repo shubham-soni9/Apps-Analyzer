@@ -15,11 +15,24 @@ import androidx.compose.ui.unit.dp
 import androidx.core.graphics.drawable.toBitmap
 import com.soni.appsanalyzer.domain.model.AppInfo
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Refresh
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppsScreen(state: AppsContract.State, onIntent: (AppsContract.Intent) -> Unit) {
-    Scaffold(topBar = { CenterAlignedTopAppBar(title = { Text("Installed Apps") }) }) {
-            paddingValues ->
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = { Text("Installed Apps") },
+                actions = {
+                    IconButton(onClick = { onIntent(AppsContract.Intent.SyncApps) }) {
+                        Icon(imageVector = Icons.Default.Refresh, contentDescription = "Sync")
+                    }
+                }
+            )
+        }
+    ) { paddingValues ->
         Column(modifier = Modifier.padding(paddingValues).fillMaxSize()) {
 
             // Filter Section

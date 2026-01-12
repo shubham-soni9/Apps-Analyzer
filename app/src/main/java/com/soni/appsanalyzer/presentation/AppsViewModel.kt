@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.soni.appsanalyzer.domain.model.AppInfo
 import com.soni.appsanalyzer.domain.model.AppType
 import com.soni.appsanalyzer.domain.usecase.GetInstalledAppsUseCase
+import com.soni.appsanalyzer.domain.usecase.SyncAppsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.channels.Channel
@@ -18,7 +19,10 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class AppsViewModel
 @Inject
-constructor(private val getInstalledAppsUseCase: GetInstalledAppsUseCase) : ViewModel() {
+constructor(
+        private val getInstalledAppsUseCase: GetInstalledAppsUseCase,
+        private val syncAppsUseCase: SyncAppsUseCase
+) : ViewModel() {
 
     private val _state = MutableStateFlow(AppsContract.State())
     val state: StateFlow<AppsContract.State> = _state.asStateFlow()
@@ -29,25 +33,38 @@ constructor(private val getInstalledAppsUseCase: GetInstalledAppsUseCase) : View
     private var allApps: List<AppInfo> = emptyList()
 
     init {
-        handleIntent(AppsContract.Intent.LoadApps)
+        // Observe database changes
+        viewModelScope.launch {
+            getInstalledAppsUseCase().collect { apps ->
+                allApps = apps
+                applyFilter(_state.value.selectedFilter)
+
+                // Initial sync if database is empty
+                if (apps.isEmpty() && !_state.value.isLoading) {
+                    handleIntent(AppsContract.Intent.SyncApps)
+                }
+            }
+        }
     }
 
     fun handleIntent(intent: AppsContract.Intent) {
         when (intent) {
-            is AppsContract.Intent.LoadApps -> loadApps()
+            is AppsContract.Intent.LoadApps -> {
+                // No-op for now as we observe flow, or could trigger sync if needed
+            }
             is AppsContract.Intent.SelectFilter -> selectFilter(intent.filter)
+            is AppsContract.Intent.SyncApps -> syncApps()
         }
     }
 
-    private fun loadApps() {
+    private fun syncApps() {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
             try {
-                allApps = getInstalledAppsUseCase()
-                applyFilter(_state.value.selectedFilter)
+                syncAppsUseCase()
             } catch (e: Exception) {
                 _state.update { it.copy(isLoading = false, error = e.message) }
-                _effect.send(AppsContract.Effect.ShowToast(e.message ?: "Unknown error"))
+                _effect.send(AppsContract.Effect.ShowToast(e.message ?: "Sync failed"))
             }
         }
     }

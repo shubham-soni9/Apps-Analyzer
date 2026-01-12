@@ -20,6 +20,7 @@ class AppsContract {
 
     sealed class Intent {
         object LoadApps : Intent()
+        object SyncApps : Intent()
         data class SelectFilter(val filter: AppFilter) : Intent()
     }
 
