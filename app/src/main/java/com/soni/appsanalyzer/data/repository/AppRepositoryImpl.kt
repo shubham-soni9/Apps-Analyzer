@@ -45,6 +45,15 @@ constructor(@ApplicationContext private val context: Context, private val appDao
                                             name = appInfo.loadLabel(packageManager).toString(),
                                             packageName = packageInfo.packageName,
                                             versionName = packageInfo.versionName ?: "Unknown",
+                                            versionCode =
+                                                    if (android.os.Build.VERSION.SDK_INT >=
+                                                                    android.os.Build.VERSION_CODES.P
+                                                    ) {
+                                                        packageInfo.longVersionCode
+                                                    } else {
+                                                        @Suppress("DEPRECATION")
+                                                        packageInfo.versionCode.toLong()
+                                                    },
                                             appType = AppAnalyzer.analyzeApp(appInfo.sourceDir)
                                     )
                                 }

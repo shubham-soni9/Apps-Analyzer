@@ -7,15 +7,16 @@ import com.soni.appsanalyzer.domain.model.AppType
 
 fun AppEntity.toAppInfo(context: Context): AppInfo {
     return AppInfo(
-            name = name,
-            packageName = packageName,
-            versionName = versionName,
-            appType =
-                    try {
-                        AppType.valueOf(appType)
-                    } catch (e: Exception) {
-                        AppType.UNKNOWN
-                    }
+        name = name,
+        packageName = packageName,
+        versionName = versionName,
+        appType =
+            try {
+                AppType.valueOf(appType)
+            } catch (e: Exception) {
+                AppType.UNKNOWN
+            },
+        versionCode = versionCode
     )
 }
 
@@ -24,6 +25,7 @@ fun AppInfo.toAppEntity(): AppEntity {
             packageName = packageName,
             name = name,
             versionName = versionName,
+            versionCode = versionCode,
             appType = appType.name
     )
 }

@@ -8,5 +8,6 @@ data class AppEntity(
         @PrimaryKey val packageName: String,
         val name: String,
         val versionName: String,
+        val versionCode: Long,
         val appType: String
 )
