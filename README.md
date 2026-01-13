@@ -42,7 +42,8 @@ AppsAnalyzer inspects the internal structure of installed APKs without requiring
 
 ## 📥 Download & Installation
 
-You can download the latest APK from the [Releases](https://github.com/yourusername/AppsAnalyzer/releases) section or find it in the `public` folder of this repository.
+You can download the latest APK directly here:
+[**📥 Download AppsAnalyzer v1.0.0 APK**](public/apps-analyzer-1.0.0.apk)
 
 ### Building from Source
 
@@ -65,6 +66,12 @@ Contributions are welcome! If you find an app that is miscategorized, please ope
 5. Open a Pull Request
 
 ## 📄 License
+
+Distributed under the MIT License. See `LICENSE` for more information.
+
+---
+
+Built with ❤️ using Kotlin and Jetpack Compose.
 
 Distributed under the MIT License. See `LICENSE` for more information.
 
