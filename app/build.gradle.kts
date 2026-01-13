@@ -1,7 +1,13 @@
+import org.gradle.kotlin.dsl.debugImplementation
+import org.gradle.kotlin.dsl.releaseImplementation
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("com.google.devtools.ksp")
+    id("com.google.dagger.hilt.android")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -42,6 +48,8 @@ android {
 }
 
 dependencies {
+    val room_version = "2.8.3"
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -50,6 +58,19 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation("com.squareup.okhttp3:logging-interceptor:5.3.2")
+    debugImplementation("com.github.chuckerteam.chucker:library:4.2.0")
+    releaseImplementation("com.github.chuckerteam.chucker:library-no-op:4.2.0")
+    implementation("androidx.compose.material:material-icons-extended:1.7.8")
+    implementation("androidx.room:room-runtime:${room_version}")
+    ksp("androidx.room:room-compiler:$room_version")
+    implementation("androidx.room:room-ktx:${room_version}")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
