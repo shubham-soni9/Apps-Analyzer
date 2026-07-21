@@ -1,0 +1,431 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const frameworks = [
+  { name: 'Flutter', icon: '🎯', desc: 'Detects libflutter.so, flutter_assets and engine markers.' },
+  { name: 'React Native', icon: '⚛️', desc: 'Finds JS bundles, Hermes/JSC binaries and RN native libs.' },
+  { name: 'Expo', icon: '🚀', desc: 'Recognises Expo-specific modules and libraries.' },
+  { name: 'Kotlin Multiplatform', icon: '🧩', desc: 'Spots shared KMM logic across platforms.' },
+  { name: 'Native Android', icon: '🤖', desc: 'Identifies apps using the standard Android SDK.' },
+];
+
+const features = [
+  {
+    icon: '🔍',
+    title: 'Smart Framework Analysis',
+    desc: 'Inspects each APK for framework signatures and uses a scoring system to categorise accurately, minimising false positives.',
+  },
+  {
+    icon: '📊',
+    title: 'Statistics Dashboard',
+    desc: 'A clean visual breakdown of your installed apps grouped by the technology they were built with.',
+  },
+  {
+    icon: '🔎',
+    title: 'Search & Filtering',
+    desc: 'Find any app by name in an instant, or filter to show only Flutter, React Native and other framework apps.',
+  },
+  {
+    icon: '⚡',
+    title: 'Modern UI/UX',
+    desc: 'Built entirely with Jetpack Compose and Material 3 for a fast, fluid and beautiful experience.',
+  },
+  {
+    icon: '💾',
+    title: 'Offline Caching',
+    desc: 'Results are cached with a Room database, so your analysis loads instantly the next time you open the app.',
+  },
+  {
+    icon: '🔒',
+    title: 'Private by Design',
+    desc: 'All analysis runs locally on your device. No root required, and your data never leaves your phone.',
+  },
+];
+
+const steps = [
+  { n: '1', title: 'Scan your device', desc: 'AppsAnalyzer reads the list of installed apps — no root access needed.' },
+  { n: '2', title: 'Inspect each APK', desc: 'It looks inside each APK for framework markers and manifest signals.' },
+  { n: '3', title: 'Score & categorise', desc: 'A scoring system assigns each app to its most likely framework.' },
+  { n: '4', title: 'Explore the results', desc: 'Browse, search and filter your apps by the technology behind them.' },
+];
+---
+
+<Layout>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <span class="pill">📱 Android · Jetpack Compose</span>
+        <h1>Discover the <span class="grad">tech behind</span> your apps.</h1>
+        <p class="lead">
+          AppsAnalyzer scans your device and reveals which apps are built with
+          <strong>Flutter</strong>, <strong>React Native</strong>, <strong>Expo</strong>,
+          <strong>Kotlin Multiplatform</strong> or <strong>Native Android</strong> — all
+          analysed locally, no root required.
+        </p>
+        <div class="hero-cta">
+          <a href="#download" class="btn btn-primary">📥 Download APK</a>
+          <a href="#how-it-works" class="btn btn-ghost">See how it works</a>
+        </div>
+        <p class="hero-note">Free &amp; open source · v1.0.0</p>
+      </div>
+      <div class="hero-art">
+        <img src="/landing-page.jpeg" alt="AppsAnalyzer home screen" class="phone phone-back" />
+        <img src="/app-details.jpeg" alt="AppsAnalyzer app details screen" class="phone phone-front" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Frameworks -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Detects five ecosystems</h2>
+      <p class="section-sub">One tap tells you exactly how any installed app was built.</p>
+      <div class="framework-grid">
+        {frameworks.map((f) => (
+          <div class="fw-card">
+            <span class="fw-icon">{f.icon}</span>
+            <h3>{f.name}</h3>
+            <p>{f.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section id="features" class="section">
+    <div class="container">
+      <h2 class="section-title">Everything you need to explore</h2>
+      <p class="section-sub">Powerful analysis wrapped in a clean, modern interface.</p>
+      <div class="feature-grid">
+        {features.map((f) => (
+          <div class="feature-card">
+            <span class="feature-icon">{f.icon}</span>
+            <h3>{f.title}</h3>
+            <p>{f.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section id="how-it-works" class="section">
+    <div class="container">
+      <h2 class="section-title">How it works</h2>
+      <p class="section-sub">No root, no cloud — just fast, local inspection.</p>
+      <div class="steps">
+        {steps.map((s) => (
+          <div class="step">
+            <span class="step-n">{s.n}</span>
+            <div>
+              <h3>{s.title}</h3>
+              <p>{s.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Download / CTA -->
+  <section id="download" class="section">
+    <div class="container">
+      <div class="cta-panel">
+        <h2>Ready to see what's under the hood?</h2>
+        <p>Download the latest APK and start analysing your apps in seconds.</p>
+        <div class="hero-cta">
+          <a href="https://github.com/shubham-soni9/Apps-Analyzer/raw/main/public/apps-analyzer-1.0.0.apk" class="btn btn-primary">📥 Download AppsAnalyzer v1.0.0</a>
+          <a href="https://github.com/shubham-soni9/Apps-Analyzer" rel="noopener" target="_blank" class="btn btn-ghost">View on GitHub</a>
+        </div>
+        <p class="hero-note">You may need to allow installs from unknown sources.</p>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .hero {
+    padding: 72px 0 48px;
+    background:
+      radial-gradient(1200px 500px at 80% -10%, rgba(108, 140, 255, 0.25), transparent 60%),
+      radial-gradient(900px 400px at 0% 10%, rgba(157, 123, 255, 0.18), transparent 55%);
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 48px;
+    align-items: center;
+  }
+
+  .pill {
+    display: inline-block;
+    padding: 6px 14px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-bottom: 20px;
+  }
+
+  h1 {
+    font-size: clamp(2.4rem, 5vw, 3.6rem);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    font-weight: 800;
+  }
+
+  .grad {
+    background: linear-gradient(120deg, var(--brand), var(--accent));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .lead {
+    margin-top: 20px;
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    max-width: 34em;
+  }
+
+  .lead strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .hero-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 32px;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 24px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--brand), var(--brand-2));
+    color: #fff;
+    box-shadow: 0 10px 30px rgba(108, 140, 255, 0.35);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+  }
+
+  .btn-ghost {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+
+  .btn-ghost:hover {
+    border-color: var(--brand);
+  }
+
+  .hero-note {
+    margin-top: 16px;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+  }
+
+  .hero-art {
+    position: relative;
+    height: 520px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .phone {
+    position: absolute;
+    width: 240px;
+    border-radius: 28px;
+    border: 1px solid var(--border);
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
+  }
+
+  .phone-back {
+    transform: translateX(-70px) rotate(-8deg);
+    opacity: 0.85;
+  }
+
+  .phone-front {
+    transform: translateX(70px) rotate(6deg);
+  }
+
+  /* Sections */
+  .section {
+    padding: 64px 0 0;
+  }
+
+  .section-title {
+    font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    text-align: center;
+  }
+
+  .section-sub {
+    text-align: center;
+    color: var(--text-muted);
+    margin-top: 12px;
+    margin-bottom: 40px;
+  }
+
+  .framework-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 18px;
+  }
+
+  .fw-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    transition: transform 0.15s ease, border-color 0.2s ease;
+  }
+
+  .fw-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--brand);
+  }
+
+  .fw-icon {
+    font-size: 1.8rem;
+  }
+
+  .fw-card h3 {
+    margin: 12px 0 6px;
+    font-size: 1.05rem;
+  }
+
+  .fw-card p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+
+  .feature-card {
+    background: linear-gradient(180deg, var(--surface), var(--bg-soft));
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px;
+  }
+
+  .feature-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: rgba(108, 140, 255, 0.15);
+    font-size: 1.4rem;
+    margin-bottom: 16px;
+  }
+
+  .feature-card h3 {
+    font-size: 1.15rem;
+    margin-bottom: 8px;
+  }
+
+  .feature-card p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+  }
+
+  .step {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+  }
+
+  .step-n {
+    flex: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--brand), var(--brand-2));
+    color: #fff;
+  }
+
+  .step h3 {
+    font-size: 1.05rem;
+    margin-bottom: 4px;
+  }
+
+  .step p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+
+  .cta-panel {
+    text-align: center;
+    background:
+      radial-gradient(600px 300px at 50% 0%, rgba(56, 224, 200, 0.15), transparent 60%),
+      var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 56px 24px;
+  }
+
+  .cta-panel h2 {
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 800;
+  }
+
+  .cta-panel p {
+    color: var(--text-muted);
+    margin-top: 12px;
+  }
+
+  .cta-panel .hero-cta {
+    justify-content: center;
+  }
+
+  @media (max-width: 860px) {
+    .hero-grid {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    .hero-art {
+      height: 420px;
+      margin-top: 16px;
+    }
+    .phone {
+      width: 200px;
+    }
+  }
+</style>

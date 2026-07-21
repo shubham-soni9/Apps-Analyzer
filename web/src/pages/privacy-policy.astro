@@ -1,0 +1,115 @@
+---
+import Layout from '../layouts/Layout.astro';
+const updated = 'July 21, 2026';
+---
+
+<Layout
+  title="Privacy Policy — AppsAnalyzer"
+  description="How AppsAnalyzer handles your data. Spoiler: everything runs locally on your device and nothing is collected."
+>
+  <article class="legal container">
+    <p class="eyebrow">Legal</p>
+    <h1>Privacy Policy</h1>
+    <p class="updated">Last updated: {updated}</p>
+
+    <p>
+      This Privacy Policy explains how <strong>AppsAnalyzer</strong> ("the app", "we", "us")
+      handles information when you use it. AppsAnalyzer is designed to be private by default:
+      all analysis happens locally on your device.
+    </p>
+
+    <h2>1. Information We Collect</h2>
+    <p>
+      AppsAnalyzer does <strong>not</strong> collect, transmit, or store any personal
+      information on external servers. The app does not require you to create an account
+      and does not use any analytics or tracking SDKs.
+    </p>
+
+    <h2>2. On-Device Data</h2>
+    <p>
+      To do its job, the app reads the list of applications installed on your device and
+      inspects their publicly available package files (APKs) to detect the framework they
+      were built with. This processing happens entirely on your device. Results may be
+      cached locally (using a Room database) so the app loads faster the next time you open
+      it. This cached data never leaves your device and is removed when you clear the app's
+      data or uninstall it.
+    </p>
+
+    <h2>3. Permissions</h2>
+    <p>
+      AppsAnalyzer requests access to query the list of installed applications solely to
+      analyze and categorize them. It does not access your files, contacts, messages,
+      camera, microphone, or location, and it does not require root access.
+    </p>
+
+    <h2>4. Data Sharing</h2>
+    <p>
+      Because no data is collected or transmitted off your device, we do not sell, share, or
+      disclose any personal information to third parties.
+    </p>
+
+    <h2>5. Third-Party Services</h2>
+    <p>
+      The app itself does not integrate third-party advertising or analytics services. If
+      you download the app from a distribution platform (such as a website or app store),
+      that platform's own privacy policy governs any data it collects during download.
+    </p>
+
+    <h2>6. Children's Privacy</h2>
+    <p>
+      AppsAnalyzer is not directed to children under the age of 13 and does not knowingly
+      collect any information from them.
+    </p>
+
+    <h2>7. Changes to This Policy</h2>
+    <p>
+      We may update this Privacy Policy from time to time. Any changes will be posted on
+      this page with an updated "Last updated" date.
+    </p>
+
+    <h2>8. Contact</h2>
+    <p>
+      If you have any questions about this Privacy Policy, please open an issue on our
+      <a href="https://github.com/shubham-soni9/Apps-Analyzer" rel="noopener" target="_blank">GitHub repository</a>.
+    </p>
+  </article>
+</Layout>
+
+<style>
+  .legal {
+    max-width: 760px;
+    padding-top: 64px;
+  }
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 0.8rem;
+    color: var(--brand);
+    font-weight: 700;
+  }
+  .legal h1 {
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-top: 8px;
+  }
+  .updated {
+    color: var(--text-muted);
+    margin: 8px 0 32px;
+    font-size: 0.9rem;
+  }
+  .legal h2 {
+    font-size: 1.25rem;
+    margin: 32px 0 10px;
+  }
+  .legal p {
+    color: var(--text-muted);
+  }
+  .legal p strong {
+    color: var(--text);
+  }
+  .legal a {
+    color: var(--brand);
+    text-decoration: underline;
+  }
+</style>

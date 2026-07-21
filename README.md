@@ -1,5 +1,5 @@
 # AppsAnalyzer 📱
-
+Version 100
 AppsAnalyzer is a powerful Android application built with **Jetpack Compose** that scans your device's installed applications and analyzes their underlying technology. It helps developers and enthusiasts identify which apps are built using **Flutter**, **React Native**, **Expo**, **Kotlin Multiplatform (KMM)**, or standard **Native** Android development.
 
 <p align="center">

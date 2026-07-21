@@ -1,0 +1,17 @@
+{
+  "name": "apps-analyzer-web",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Landing page for AppsAnalyzer — an Android app that detects the framework behind your installed apps.",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^5.13.0"
+  }
+}
